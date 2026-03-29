@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumio Display | Solutions Digitales Premium à Dubaï</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --primary-blue: #0B192C; 
+            --accent-orange: #FF6500;
+            --bg-light: #F5F7F8;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-gray: #666666;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            margin: 0;
+            color: var(--text-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 15px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .logo { font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
+        .logo span { color: var(--accent-orange); }
+
+        .nav-menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 25px; }
+        .nav-menu a { text-decoration: none; color: var(--white); font-weight: 600; font-size: 0.95rem; transition: 0.3s; }
+        .nav-menu a:hover { color: var(--accent-orange); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(11, 25, 44, 0.9), rgba(11, 25, 44, 0.7)), 
+                        url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+        .hero h1 { font-size: 3.5rem; margin: 0 0 20px 0; }
+        .hero h1 span { color: var(--accent-orange); }
+        .hero p { font-size: 1.2rem; max-width: 750px; margin: 0 auto 40px auto; color: #d0d0d0; }
+
+        .btn-cta {
+            display: inline-block;
+            background-color: var(--accent-orange);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255, 101, 0, 0.4); }
+
+        /* --- SECTIONS --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.8rem; color: var(--primary-blue); margin-bottom: 10px; }
+        .section-title div { width: 80px; height: 4px; background: var(--accent-orange); margin: 0 auto; }
+
+        /* --- PRODUITS --- */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent-orange); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+
+        .card-img-container {
+            height: 380px;
+            background-color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .card-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-body h3 { color: var(--primary-blue); font-size: 1.5rem; margin-top: 0; }
+        .card-body p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
+
+        .btn-group { display: flex; gap: 10px; }
+        .btn-spec {
+            flex: 1;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-wa {
+            flex: 1;
+            background-color: #25D366;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(11, 25, 44, 0.9);
+            overflow-y: auto;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+        }
+        .close-modal { position: absolute; right: 25px; top: 20px; font-size: 30px; cursor: pointer; color: var(--primary-blue); }
+
+        .specs-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .specs-table td, .specs-table th { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        .spec-cat { background: #f8fafc; font-weight: bold; color: var(--accent-orange); }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 60px 5% 30px;
+            margin-top: 60px;
+            border-top: 5px solid var(--accent-orange);
+        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-logo { font-size: 22px; font-weight: bold; margin-bottom: 15px; }
+        .footer-logo span { color: var(--accent-orange); }
+        .footer-sect h4 { color: var(--accent-orange); margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">LUMIO<span>DISPLAY</span></div>
+    <ul class="nav-menu">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#produits">Nos Solutions</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><i class="fas fa-phone"></i> +971 50 987 6543</li>
+    </ul>
+</header>
+
+<section id="accueil" class="hero">
+    <h1>L'Impact Visuel <span>Premium</span></h1>
+    <p>Solutions d'affichage dynamique interactif basées à Dubaï. Une technologie de pointe pour moderniser vos espaces professionnels.</p>
+    <a href="#produits" class="btn-cta">Voir le catalogue</a>
+</section>
+
+<section id="produits" class="container">
+    <div class="section-title">
+        <h2>Catalogue Solutions</h2>
+        <div></div>
+    </div>
+
+    <div class="product-grid">
+        <div class="card">
+            <div class="card-img-container">
+                <img src="photo1.jpeg" alt="Totem Tactile 55 Pouces">
+            </div>
+            <div class="card-body">
+                <h3>Totem Tactile Prestige 55"</h3>
+                <p>Écran Full HD ultra-lumineux, système Android 14 et protection électrique par onduleur Online Double Conversion incluse.</p>
+                <div class="btn-group">
+                    <button class="btn-spec" onclick="openModal()">Détails Techniques</button>
+                    <a href="https://wa.me/971509876543" class="btn-wa"><i class="fab fa-whatsapp"></i> Commander</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img-container">
+                <img src="photo2.jpeg" alt="Écran Mural 43 Pouces">
+            </div>
+            <div class="card-body">
+                <h3>Écran Mural Interactif 43"</h3>
+                <p>Design extra-plat avec cadre en aluminium. Parfait pour la signalétique intérieure et l'interaction client en magasin.</p>
+                <div class="btn-group">
+                    <button class="btn-spec">Détails Techniques</button>
+                    <a href="https://wa.me/971509876543" class="btn-wa"><i class="fab fa-whatsapp"></i> Commander</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img-container">
+                <img src="photo3.jpeg" alt="Borne Kiosque Desktop">
+            </div>
+            <div class="card-body">
+                <h3>Borne Kiosque Desktop</h3>
+                <p>Solution compacte pour comptoirs. Écran tactile haute réactivité idéal pour les banques, hôtels et points de vente.</p>
+                <div class="btn-group">
+                    <button class="btn-spec">Détails Techniques</button>
+                    <a href="https://wa.me/971509876543" class="btn-wa"><i class="fab fa-whatsapp"></i> Commander</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="specModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h2 style="color: var(--primary-blue);">Fiche Technique : Totem 55" Pro</h2>
+        <table class="specs-table">
+            <tr><th colspan="2" class="spec-cat">AFFICHAGE & SYSTÈME</th></tr>
+            <tr><td>Écran</td><td>55 Pouces TFT (16:9), Full HD 1920x1080</td></tr>
+            <tr><td>Luminosité</td><td>500 cd/m² - Contraste 1400:1</td></tr>
+            <tr><td>Système</td><td>Android 14 | 4 Go RAM | 32 Go Stockage</td></tr>
+            <tr><td>Tactile</td><td>Infrarouge 10 points haute précision</td></tr>
+            <tr><th colspan="2" class="spec-cat">ÉLECTRICITÉ (ONDULEUR INCLUS)</th></tr>
+            <tr><td>Capacité</td><td>2000 VA / 1400 W (Technologie Online)</td></tr>
+            <tr><td>Autonomie</td><td>~11 min à 50% de charge</td></tr>
+            <tr><td>Recharge</td><td>5 heures maximum</td></tr>
+            <tr><th colspan="2" class="spec-cat">CONCEPTION & LOGICIEL</th></tr>
+            <tr><td>Matériaux</td><td>Métal, Aluminium et Verre Trempé</td></tr>
+            <tr><td>Logiciel CMS</td><td>Gestion en temps réel et planification inclus</td></tr>
+            <tr><td>Connectivité</td><td>Wi-Fi, LAN RJ45, USB, 4G/5G en option</td></tr>
+        </table>
+    </div>
+</div>
+
+<footer id="contact">
+    <div class="footer-grid">
+        <div class="footer-sect">
+            <div class="footer-logo">LUMIO<span>DISPLAY</span></div>
+            <p>Spécialiste de l'affichage interactif à Dubaï. Matériel certifié aux normes internationales CE et EN.</p>
+        </div>
+        <div class="footer-sect">
+            <h4>Contact Dubaï</h4>
+            <p><i class="fas fa-map-marker-alt"></i> Business Bay, Sheikh Zayed Road, Dubai</p>
+            <p><i class="fas fa-phone"></i> +971 50 987 6543</p>
+            <p><i class="fas fa-envelope"></i> contact@lumiodisplay.ae</p>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px; font-size: 0.8rem; color: #999; border-top: 1px solid #1E293B; padding-top: 20px;">
+        &copy; 2026 Lumio Display UAE. Garantie matérielle de 12 mois incluse.
+    </div>
+</footer>
+
+<script>
+    function openModal() { document.getElementById("specModal").style.display = "block"; }
+    function closeModal() { document.getElementById("specModal").style.display = "none"; }
+    window.onclick = function(event) {
+        if (event.target == document.getElementById("specModal")) closeModal();
+    }
+</script>
+
+</body>
+</html>
